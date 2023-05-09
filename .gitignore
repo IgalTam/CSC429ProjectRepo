@@ -1,6 +1,6 @@
 experiments/
 venv/
-data/*.txt
+GAN_dir/data/*.txt
 *.pyc
 *.pkl
 .ipynb_checkpoints
