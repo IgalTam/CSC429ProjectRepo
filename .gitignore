@@ -1,5 +1,6 @@
 experiments/
 venv/
+amiannpc/
 GAN_dir/data/*.txt
 *.pyc
 *.pkl
