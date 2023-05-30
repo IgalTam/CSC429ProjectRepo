@@ -2,7 +2,7 @@
 # author: William Melicher
 from keras.models import Sequential, model_from_json
 from keras.layers.core import Activation, Dense, RepeatVector
-from keras.layers import recurrent
+#from keras.v1.layers import recurrent
 
 import unittest
 from unittest.mock import MagicMock, Mock
