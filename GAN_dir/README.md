@@ -13,7 +13,7 @@ The model from PassGAN is taken from [_Improved Training of Wasserstein GANs_](h
 # requires CUDA 8 to be pre-installed
 pip install -r requirements.txt
 ```
-
+	
 ### Generating password samples
 
 Use the pretrained model to generate 1,000,000 passwords, saving them to `gen_passwords.txt`.
