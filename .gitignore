@@ -4,3 +4,4 @@ GAN_dir/data/*.txt
 *.pyc
 *.pkl
 .ipynb_checkpoints
+429_Proj

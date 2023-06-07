@@ -70,11 +70,17 @@ def parse_args():
 
 args = parse_args()
 
+
+
 with open(os.path.join(args.input_dir, 'charmap.pickle'), 'rb') as f:
-    charmap = pickle.load(f)
+    u = pickle._Unpickler(f)
+    u.encoding = 'latin1'
+    charmap = u.load()
 
 with open(os.path.join(args.input_dir, 'inv_charmap.pickle'), 'rb') as f:
-    inv_charmap = pickle.load(f)
+    u = pickle._Unpickler(f)
+    u.encoding = 'latin1'
+    inv_charmap = u.load()
 
 fake_inputs = models.Generator(args.batch_size, args.seq_length, args.layer_dim, len(charmap))
 
@@ -84,9 +90,9 @@ with tf.Session() as session:
         samples = session.run(fake_inputs)
         samples = np.argmax(samples, axis=2)
         decoded_samples = []
-        for i in xrange(len(samples)):
+        for i in range(len(samples)):
             decoded = []
-            for j in xrange(len(samples[i])):
+            for j in range(len(samples[i])):
                 decoded.append(inv_charmap[samples[i][j]])
             decoded_samples.append(tuple(decoded))
         return decoded_samples
@@ -103,7 +109,7 @@ with tf.Session() as session:
     samples = []
     then = time.time()
     start = time.time()
-    for i in xrange(int(args.num_samples / args.batch_size)):
+    for i in range(int(args.num_samples / args.batch_size)):
         
         samples.extend(generate_samples())
 

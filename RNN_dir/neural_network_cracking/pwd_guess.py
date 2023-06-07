@@ -35,7 +35,8 @@ except AttributeError:
 
 from keras.models import Sequential, model_from_json
 from keras.layers.core import Activation, Dense, Dropout
-from keras.layers import TimeDistributed, Flatten, Conv1D, recurrent, Embedding
+# from keras.layers import TimeDistributed, Flatten, Conv1D, recurrent, Embedding
+from keras.layers import TimeDistributed, Flatten, Conv1D, Embedding, GRU, LSTM
 import keras.utils
 from keras.callbacks import TensorBoard
 
@@ -689,14 +690,16 @@ class Trainer():
         model_type = self.config.model_type
         hidden_size = self.config.hidden_size
         if model_type == 'GRU':
-            return recurrent.GRU(
+            # return recurrent.GRU(
+            return GRU(
                 hidden_size,
                 return_sequences=True,
                 go_backwards=recurrent_train_backwards,
                 **kwargs)
 
         if model_type == 'LSTM':
-            return recurrent.LSTM(
+            # return recurrent.LSTM(
+            return LSTM(
                 hidden_size,
                 return_sequences=True,
                 go_backwards=recurrent_train_backwards,
@@ -1424,7 +1427,8 @@ class ProbabilityCalculator():
             probs = self._cached_batch_prob(x_strings)
             assert len(probs) == len(x_strings)
             for i, y_idx in enumerate(y_indices):
-                prob = np.asscalar(probs[i][0][y_idx])
+                # prob = np.asscalar(probs[i][0][y_idx])
+                prob = probs[i][0][y_idx].item()
                 yield x_strings[i], y_strings[i], prob
 
             x_strings, y_strings, _ = self.preproc.next_chunk()
@@ -1459,7 +1463,8 @@ class ManyToManyProbabilityCalculator(ProbabilityCalculator):
                 for j, y_idx in enumerate(y_indices[i]):
                     if j == len(x_strings[i]):
                         break
-                    yield x_strings[i], y_strings[i][j], np.asscalar(probs[i][j][y_idx])
+                    # yield x_strings[i], y_strings[i][j], np.asscalar(probs[i][j][y_idx])
+                    yield x_strings[i], y_strings[i][j], probs[i][j][y_idx].item()
             x_strings, y_strings, _ = self.preproc.next_chunk()
 
 class PasswordTemplateSerializer(DelegatingSerializer):
